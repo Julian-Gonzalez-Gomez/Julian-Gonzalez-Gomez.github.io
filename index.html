@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Fuente - Facultad De Informatica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="" onerror="this.style.display='none'">
+            <span>LA FUENTE</span>
+        </a>
+        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
+    </div>
+</header>
+
+<nav id="side-menu" class="side-menu">
+    <button class="close-btn" onclick="toggleMenu()">×</button>
+    <div class="menu-content">
+        <span class="tag" style="color: var(--orange3);">NAVEGACIÓN</span>
+        <a href="index.html">Inicio</a>
+        <a href="https://drive.google.com/drive/folders/1qd9RpVCq1W7ivdNRD45UG4uP8hdSC_tk?usp=sharing">Drive</a>
+        <a href="https://ideas.info.unlp.edu.ar/login">IDEAS</a>
+        <a href="https://www.instagram.com/LAFUENTEUNLP">Actividades</a>
+        <a href="https://www.instagram.com/LAFUENTEUNLP">Extension</a>
+    </div>
+</nav>
+
+<main class="grid-container">
+    
+    <a href="https://gestiondocente.info.unlp.edu.ar/cartelera/#form[materia]=&" class="card-mini bg-orange" style="--bg-image: url('images/generico.png');">
+        <span class="tag">Cursadas intensivas, Redictados y mas</span>
+        <h2>Novedades</h2>
+        <span class="btn-action">Ver</span>
+    </a>
+
+    <a href="whatsapp.html" class="card bg-blue2" style="--bg-image: url('images/whatsapp.jpeg');">
+        <span class="tag">Grupos de Whatsapp</span>
+        <h2>De todas las materias</h2>
+        <span class="btn-action" style="text-align: center;" >Ingresar</span>
+    </a>
+
+    <a href="https://www.info.unlp.edu.ar/calendario-academico-2026/" class="card bg-blue2" style="--bg-image: url('images/calendario.png');">
+        <span class="tag">Calendario Academico</span>
+        <h1 id="dia" style="text-align: center;">--</h1>
+        <h1 id="mes" style="text-align: center;">Cargando...</h1>
+        <span class="btn-action" style="text-align: center;">Examenes Finales</span>
+    </a>
+
+    <a href="https://ig.me/m/lafuenteunlp?text=me%20quiero%20sumar!" class="card-mini bg-orange" style="--bg-image: url('images/generico.png');">
+        <h2>Conoce La Fuente</h2>
+        <span class="btn-action">Sumate!</span>
+    </a>
+
+    <a href="https://drive.google.com/drive/folders/1qd9RpVCq1W7ivdNRD45UG4uP8hdSC_tk?usp=sharing" class="card bg-orange" style="--bg-image: url('images/drive.png');">
+        <span class="tag">Apuntes</span>
+        <h2>Google Drive</h2>
+        <span class="btn-action" style="text-align: center;" >Ingresar</span>
+    </a>
+
+        <a href="transporte.html" class="card bg-blue2" style="--bg-image: url('images/transporte.png');">
+        <span class="tag">Boleto Universitario, Horarios y Recorridos</span>
+        <h2 style="text-align: auto;">TRANSPORTE UNIVERSITARIO</h2>
+        <span class="btn-action" style="text-align: center;">Ingresar</span>
+    </a>
+
+</main>
+
+<footer class="main-footer">
+    <p>La Fuente<br><br>Informáticos para la Patria</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
