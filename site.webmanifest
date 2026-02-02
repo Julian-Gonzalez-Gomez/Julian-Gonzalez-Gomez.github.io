@@ -2,7 +2,7 @@
     "name": "La Fuente - Facultad de Informática",
     "short_name": "La Fuente",
     "description": "App informativa para estudiantes de la Facultad de Informática UNLP",
-    "start_url": "./Index.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#002a62",
     "theme_color": "#002a62",
