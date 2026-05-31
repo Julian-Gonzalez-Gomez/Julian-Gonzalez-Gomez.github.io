@@ -3,77 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Fuente - Facultad De Informatica</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Julián González Gómez | Porfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+    </style>
 </head>
-<body>
+<body class="text-slate-200 font-sans min-h-screen flex flex-col items-center justify-between p-6Selection">
 
-<header class="main-header">
-    <div class="header-container">
-        <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="" onerror="this.style.display='none'">
-            <span>LA FUENTE</span>
-        </a>
-        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
-    </div>
-</header>
+    <!-- Contenedor Principal -->
+    <main class="w-full max-w-md mx-auto flex flex-col items-center mt-10 mb-8">
+        
+        <!-- Foto de Perfil / Avatar -->
+        <div class="relative w-28 h-28 mb-4 rounded-full p-1 bg-gradient-to-tr from-orange-500 to-amber-400 shadow-xl">
+            <div class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center overflow-hidden">
+                <!-- Icono por defecto elegante. Puedes reemplazar el <i> por un <img src="tu-foto.jpg"> -->
+                <i class="fa-solid fa-user-astronaut text-4xl text-orange-400"></i>
+            </div>
+        </div>
 
-<nav id="side-menu" class="side-menu">
-    <button class="close-btn" onclick="toggleMenu()">×</button>
-    <div class="menu-content">
-        <span class="tag" style="color: var(--orange3);">NAVEGACIÓN</span>
-        <a href="index.html">Inicio</a>
-        <a href="https://drive.google.com/drive/folders/1qd9RpVCq1W7ivdNRD45UG4uP8hdSC_tk?usp=sharing">Drive</a>
-        <a href="https://ideas.info.unlp.edu.ar/login">IDEAS</a>
-        <a href="https://www.instagram.com/LAFUENTEUNLP">Actividades</a>
-        <a href="https://www.instagram.com/LAFUENTEUNLP">Extension</a>
-    </div>
-</nav>
+        <!-- Nombre y Titular -->
+        <h1 class="text-2xl font-bold text-white tracking-wide">Julián González Gómez</h1>
+        <p class="text-amber-400 font-medium text-sm sm:text-base mt-1 mb-3">Estudiante de Informática & Geografía</p>
+        
+        <!-- Breve Biografía -->
+        <p class="text-center text-slate-400 text-sm px-4 mb-8 leading-relaxed">
+            Apasionado por el desarrollo de software, la cartografía y el análisis espacial. Creando herramientas para conectar comunidades y transformar datos en mapas.
+        </p>
 
-<main class="grid-container">
-    
-    <a href="novedades.html" class="card-mini bg-orange" style="--bg-image: url('images/generico.png');">
-        <h2>Cursadas intensivas, Redictados y mas</h2>
-        <h2>Novedades</h2>
-        <span class="btn-action">Ver</span>
-    </a>
+        <!-- Bloque de Redes Sociales Principales -->
+        <div class="w-full space-y-4">
+            
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/julian-gonzalez-gomez-49585a351/" target="_blank" rel="noopener noreferrer" 
+               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-blue-500 hover:-translate-y-0.5 shadow-md">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-sm font-semibold text-white">LinkedIn</span>
+                        <span class="block text-xs text-slate-400">Conecta conmigo profesionalmente</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+            </a>
 
-    <a href="whatsapp.html" class="card bg-blue2" style="--bg-image: url('images/whatsapp.jpeg');">
-        <h2>Grupos de Whatsapp</h2>
-        <h2>De todas las materias</h2>
-        <span class="btn-action" style="text-align: center;" >Ingresar</span>
-    </a>
+            <!-- GitHub -->
+            <a href="https://github.com/Julian-Gonzalez-Gomez" target="_blank" rel="noopener noreferrer" 
+               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-purple-500 hover:-translate-y-0.5 shadow-md">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-sm font-semibold text-white">GitHub</span>
+                        <span class="block text-xs text-slate-400">Mis repositorios y proyectos de código</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-400 transition-colors"></i>
+            </a>
 
-    <a href="https://www.info.unlp.edu.ar/calendario-academico-2026/" class="card bg-blue2" style="--bg-image: url('images/calendario.png');">
-        <h2>Calendario Academico</h2>
-        <h1 id="dia" style="text-align: center;">--</h1>
-        <h1 id="mes" style="text-align: center;">Cargando...</h1>
-        <span class="btn-action" style="text-align: center;">Examenes Finales</span>
-    </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/juliangonzalez._/" target="_blank" rel="noopener noreferrer" 
+               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-pink-500 hover:-translate-y-0.5 shadow-md">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-pink-600/20 flex items-center justify-center text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-amber-500 group-hover:to-pink-600 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-sm font-semibold text-white">Instagram</span>
+                        <span class="block text-xs text-slate-400">Día a día, mapas y proyectos universitarios</span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-pink-400 transition-colors"></i>
+            </a>
 
-    <a href="https://ig.me/m/lafuenteunlp?text=me%20quiero%20sumar!" class="card-mini bg-orange" style="--bg-image: url('images/generico.png');">
-        <h2>Conoce La Fuente</h2>
-        <span class="btn-action">Sumate!</span>
-    </a>
+        </div>
 
-    <a href="https://drive.google.com/drive/folders/1qd9RpVCq1W7ivdNRD45UG4uP8hdSC_tk?usp=sharing" class="card bg-orange" style="--bg-image: url('images/drive.png');">
-        <h2>Apuntes</h2>
-        <h2>Google Drive</h2>
-        <span class="btn-action" style="text-align: center;" >Ingresar</span>
-    </a>
-        <a href="transporte.html" class="card bg-blue2" style="--bg-image: url('images/transporte.png');">
-        <h2>Boleto Universitario, Horarios y Recorridos<h2>
-        <h2 style="text-align: auto;">TRANSPORTE UNIVERSITARIO</h2>
-        <span class="btn-action" style="text-align: center;">Ingresar</span>
-    </a>
+        <!-- Sección Destacada de Proyectos / Enfoque -->
+        <div class="w-full mt-8 pt-6 border-t border-slate-800">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 text-center">Intereses & Proyectos</h2>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
+                    <i class="fa-solid fa-code text-amber-500 mb-1 block text-sm"></i>
+                    <span class="text-slate-300 font-medium">Desarrollo</span>
+                </div>
+                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
+                    <i class="fa-solid fa-earth-americas text-blue-400 mb-1 block text-sm"></i>
+                    <span class="text-slate-300 font-medium">Geografía</span>
+                </div>
+                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
+                    <i class="fa-solid fa-map text-emerald-400 mb-1 block text-sm"></i>
+                    <span class="text-slate-300 font-medium">Cartografía</span>
+                </div>
+            </div>
+        </div>
 
-</main>
+    </main>
 
-<footer class="main-footer">
-    <p>La Fuente<br><br>Informáticos para la Patria</p>
+    <!-- Pie de página discreto -->
+    <footer class="text-xs text-slate-600 pb-4">
+        &copy; 2026 • Diseñado con <i class="fa-solid fa-heart text-red-500/60"></i> por Julián
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
