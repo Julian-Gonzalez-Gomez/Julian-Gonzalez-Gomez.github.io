@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor de Proyectos</title>
+    <title>Visor de Proyectos con Markdown</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -18,23 +19,18 @@
         <aside class="sidebar" id="sidebar">
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active">Proyecto 1</a></li>
-                    <li><a href="#">Proyecto 2</a></li>
-                    <li><a href="#">Proyecto 3</a></li>
-                    <li><a href="#">Proyecto 4</a></li>
+                    <li><a href="#" class="nav-link active" data-md="proyectos/proyecto1.md">Proyecto 1</a></li>
+                    <li><a href="#" class="nav-link" data-md="proyectos/proyecto2.md">Proyecto 2</a></li>
+                    <li><a href="#" class="nav-link" data-md="proyectos/proyecto3.md">Proyecto 3</a></li>
+                    <li><a href="#" class="nav-link" data-md="proyectos/proyecto4.md">Proyecto 4</a></li>
                 </ul>
             </nav>
         </aside>
 
         <main class="main-content">
-            <header>
-                <h1 class="project-title">TÍTULO DEL PROYECTO</h1>
-            </header>
-            
-            <section class="project-description">
-                <p>textotextotexto textotexto textotextotexto textotextotexto textotextotexto</p>
-                <p>textotextotexto textotextotexto textotextotexto</p>
-            </section>
+            <article class="markdown-body" id="content-area">
+                <p>Cargando proyecto...</p>
+            </article>
 
             <section class="map-container">
                 <div id="map">
@@ -45,7 +41,7 @@
     </div>
 
     <script>
-        // Lógica simple y eficiente para el menú responsive
+        // Lógica para el menú responsive
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
 
@@ -53,11 +49,51 @@
             sidebar.classList.toggle('active');
         });
 
-        // Opcional: Cerrar el menú al hacer click en un enlace (en móviles)
-        sidebar.addEventListener('click', (e) => {
-            if (e.target.tagName === 'A' && window.innerWidth <= 768) {
-                sidebar.classList.remove('active');
+        // --- LÓGICA DE CARGA DE MARKDOWN ---
+        const contentArea = document.getElementById('content-area');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Función asíncrona para buscar el archivo .md y renderizarlo
+        async function loadMarkdown(url) {
+            try {
+                contentArea.innerHTML = "<p>Cargando contenido...</p>";
+                const response = await fetch(url);
+                
+                if (!response.ok) throw new Error("No se pudo encontrar el archivo Markdown");
+                
+                const markdownText = await response.text();
+                
+                // marked.parse() transforma el string de Markdown en HTML limpio
+                contentArea.innerHTML = marked.parse(markdownText);
+            } catch (error) {
+                contentArea.innerHTML = `<p style="color:red;">Error al cargar el proyecto: ${error.message}</p>`;
             }
+        }
+
+        // Evento de click para cambiar de proyecto
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remueve estado activo anterior y lo asigna al nuevo
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Obtiene la ruta del archivo .md desde el atributo data-md
+                const mdUrl = link.getAttribute('data-md');
+                if (mdUrl) loadMarkdown(mdUrl);
+
+                // Cierra el menú en móviles tras clickear
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Carga inicial del primer proyecto al abrir la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialProject = document.querySelector('.nav-link.active').getAttribute('data-md');
+            loadMarkdown(initialProject);
         });
     </script>
 </body>
