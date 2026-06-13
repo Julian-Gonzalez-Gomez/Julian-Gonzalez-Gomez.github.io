@@ -1,242 +1,126 @@
-/* ==========================================================================
-   Variables y Reset
-   ========================================================================== */
 :root {
-    --bg-primary: #ffffff;
-    --bg-sidebar: #1b252e;
-    --accent-color: #7dc2ff;
-    --text-color: #e0e0e0;
-    --border-color: #e0e0e0;
-    --sidebar-width: 280px;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  --prussian-blue: #172239ff;
+  --prussian-blue-2: #0D152Aff;
+  --prussian-blue-3: #0A1429ff;
+  --charcoal-blue: #4A5368ff;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--text-color);
-    background-color: var(--bg-primary);
-    overflow: hidden; 
-}
-
-/* ==========================================================================
-   Layout Estructura (Mobile First)
-   ========================================================================== */
-.app-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    position: relative;
-}
-
-/* Menú Hamburguesa Principal (Para abrir) */
-.menu-toggle {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1000;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgb(255, 255, 255);
-}
-
-/* Botón Interno para cerrar la Barra Lateral */
-.close-sidebar {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-}
-
-/* Barra Lateral Oculta por defecto en móviles */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: calc(-1 * var(--sidebar-width));
-    width: var(--sidebar-width);
-    height: 100%;
-    background-color: var(--bg-sidebar);
-    border-right: 1px solid var(--border-color);
-    z-index: 1001; /* Por encima de todo en móvil */
-    transition: transform 0.3s ease;
-    padding-top: 70px; 
-}
-
-/* Clase de activación que desplaza la barra hacia adentro */
-.sidebar.active {
-    transform: translateX(var(--sidebar-width));
-}
-
-/* Navegación */
-.sidebar-nav ul {
-    list-style: none;
-}
-
-.sidebar-nav a {
-    display: block;
-    padding: 15px 20px;
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: 500;
-    border-left: 4px solid transparent;
-    transition: all 0.2s;
-}
-
-.sidebar-nav a:hover, 
-.sidebar-nav a.active {
-    background-color: rgba(0, 118, 214, 0.08);
-    color: var(--accent-color);
-    border-left-color: var(--accent-color);
-}
-
-/* Contenido Principal */
-.main-content {
-    flex: 1;
+    background-color: var(--prussian-blue-3);
+    color: #e2e8f0;
+    margin: 0;
+    padding: 0;
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+    min-h: screen;
     display: flex;
     flex-direction: column;
-    height: 100%;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
-    padding-top: 80px; /* Evita que el botón flotante tape el título en móvil */
-    overflow-y: auto;
-}
-
-.project-title {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-}
-
-.project-description p {
-    margin-bottom: 12px;
-    line-height: 1.6;
-}
-
-/* Contenedor del Mapa */
-.map-container {
     flex: 1;
-    min-height: 350px; 
-    margin-top: 20px;
+}
+
+.card {
+    background-color: var(--prussian-blue-2);
+    border: 1px solid var(--charcoal-blue);
     border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
+    padding: 24px;
+    margin-bottom: 24px;
 }
 
-#map {
-    width: 100%;
-    height: 100%;
-    background-color: #e5e3df; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+h1 { 
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; 
+    font-size: 24px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 700; 
+    line-height: 26.4px;
+    color: #ffffff;
+    margin-bottom: 16px;
 }
 
-.map-placeholder {
-    color: #2d3242;
-    font-weight: bold;
+h3 { 
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; 
+    font-size: 14px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 700; 
+    line-height: 15.4px;
+    color: #38bdf8;
+    margin-top: 14px;
+    margin-bottom: 8px;
 }
 
-.map-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+p { 
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; 
+    font-size: 12px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400; 
+    line-height: 20px;
+    color: #cbd5e1;
 }
 
-/* ==========================================================================
-   Media Queries para Escritorio (Computadora)
-   ========================================================================== */
-@media (min-width: 769px) {
-    .menu-toggle,
-    .close-sidebar {
-        display: none; /* Ocultamos los botones de alternancia en PC */
-    }
-
-    .sidebar {
-        position: relative; /* Pasa a formar parte fija del layout flex */
-        left: 0;
-        padding-top: 30px; 
-        transform: none !important; 
-        z-index: 1;
-    }
-
-    .main-content {
-        padding: 30px;
-        padding-top: 30px; 
-    }
-}
-    body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-    .project-title {
-            color: #f8f9fa;
-        }
-    .project-description p {
-            color: #f8f9fa;
-        }
-    .project-description a {
-            color: #f8f9fa;
-        }
-    /* ==========================================================================
-   Botones de Recursos y Descargas
-   ========================================================================== */
-.project-resources {
-    display: flex;
-    flex-wrap: wrap; /* Permite que bajen si la pantalla es muy chica */
-    gap: 10px;       /* Separación uniforme entre botones */
-    margin-top: 5px;
-    margin-bottom: 15px;
+blockquote { 
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; 
+    font-size: 21px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400; 
+    line-height: 30px;
+    border-left: 4px solid var(--charcoal-blue);
+    padding-left: 16px;
+    margin: 20px 0;
+    color: #94a3b8;
 }
 
-.btn-resource {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px; /* Espacio entre el icono SVG y el texto */
-    background-color: var(--bg-sidebar);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+pre { 
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; 
+    font-size: 13px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400; 
+    line-height: 18.5714px;
+    background-color: var(--prussian-blue);
+    padding: 12px;
     border-radius: 6px;
-    padding: 6px 12px;
-    font-size: 0.85rem; /* Tamaño pequeño y discreto */
-    font-weight: 500;
+    overflow-x: auto;
+    color: #e2e8f0;
+}
+
+/* Navbar Inferior Estilizada */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--prussian-blue-2);
+    border-top: 1px solid var(--charcoal-blue);
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 100;
+}
+
+.bottom-nav a {
+    color: #94a3b8;
     text-decoration: none;
-    cursor: pointer;
-    transition: transform 0.1s ease, background-color 0.2s, border-color 0.2s;
+    font-size: 13px;
+    font-weight: 700;
+    transition: color 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 6px;
 }
 
-/* Efectos al pasar el mouse y clickear */
-.btn-resource:hover {
-    background-color: rgba(0, 118, 214, 0.05);
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+.bottom-nav a:hover, .bottom-nav a.active {
+    color: #ffffff;
+    background-color: var(--prussian-blue);
 }
 
-.btn-resource:active {
-    transform: scale(0.97); /* Pequeño efecto táctil de hundimiento */
+.spacer {
+    height: 70px; /* Evita que la navbar tape contenido */
 }
-
-/* Ajuste específico para que en celulares muy angostos ocupen todo el ancho si es necesario */
-@media (max-width: 480px) {
-    .project-resources {
-        flex-direction: column; /* Se apilan verticalmente en pantallas diminutas */
-    }
-    .btn-resource {
-        width: 100%;
-    }
-}
-    
