@@ -3,9 +3,9 @@
    ========================================================================== */
 :root {
     --bg-primary: #ffffff;
-    --bg-sidebar: #f8f9fa;
-    --accent-color: #0076d6;
-    --text-color: #333333;
+    --bg-sidebar: #1b252e;
+    --accent-color: #7dc2ff;
+    --text-color: #e0e0e0;
     --border-color: #e0e0e0;
     --sidebar-width: 280px;
 }
@@ -20,7 +20,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-color);
     background-color: var(--bg-primary);
-    overflow: hidden; /* Evita scrolls dobles extraños en la app */
+    overflow: hidden; 
 }
 
 /* ==========================================================================
@@ -33,13 +33,13 @@ body {
     position: relative;
 }
 
-/* Menú Hamburguesa */
+/* Menú Hamburguesa Principal (Para abrir) */
 .menu-toggle {
     position: fixed;
     top: 15px;
     left: 15px;
     z-index: 1000;
-    background: var(--bg-sidebar);
+    background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 10px;
@@ -47,28 +47,44 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgb(255, 255, 255);
 }
 
-/* Barra Lateral en Móviles */
-.sidebar {
+/* Botón Interno para cerrar la Barra Lateral */
+.close-sidebar {
     position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+/* Barra Lateral Oculta por defecto en móviles */
+.sidebar {
+    position: fixed;
     top: 0;
     left: calc(-1 * var(--sidebar-width));
     width: var(--sidebar-width);
     height: 100%;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
-    z-index: 999;
+    z-index: 1001; /* Por encima de todo en móvil */
     transition: transform 0.3s ease;
-    padding-top: 70px; /* Espacio para que el botón no tape el primer item */
+    padding-top: 70px; 
 }
 
+/* Clase de activación que desplaza la barra hacia adentro */
 .sidebar.active {
     transform: translateX(var(--sidebar-width));
 }
 
-/* Navegación interna */
+/* Navegación */
 .sidebar-nav ul {
     list-style: none;
 }
@@ -90,14 +106,14 @@ body {
     border-left-color: var(--accent-color);
 }
 
-/* Área de Contenido Principal */
+/* Contenido Principal */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 20px;
-    padding-top: 80px; /* Margen para el botón flotante en móvil */
+    padding-top: 80px; /* Evita que el botón flotante tape el título en móvil */
     overflow-y: auto;
 }
 
@@ -111,10 +127,10 @@ body {
     line-height: 1.6;
 }
 
-/* Contenedor del Mapa adaptable */
+/* Contenedor del Mapa */
 .map-container {
     flex: 1;
-    min-height: 300px; /* Altura mínima vital en pantallas chicas */
+    min-height: 350px; 
     margin-top: 20px;
     border-radius: 12px;
     overflow: hidden;
@@ -124,34 +140,103 @@ body {
 #map {
     width: 100%;
     height: 100%;
-    background-color: #e5e3df; /* Color base típico de mapas */
+    background-color: #e5e3df; 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .map-placeholder {
-    color: #666;
+    color: #2d3242;
     font-weight: bold;
+}
+
+.map-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* ==========================================================================
    Media Queries para Escritorio (Computadora)
    ========================================================================== */
 @media (min-width: 769px) {
-    .menu-toggle {
-        display: none; /* Ocultamos el botón en desktop */
+    .menu-toggle,
+    .close-sidebar {
+        display: none; /* Ocultamos los botones de alternancia en PC */
     }
 
     .sidebar {
-        position: relative;
+        position: relative; /* Pasa a formar parte fija del layout flex */
         left: 0;
-        padding-top: 30px; /* Ya no requiere espacio para el botón */
-        transform: none !important; /* Desactiva transiciones de móvil */
+        padding-top: 30px; 
+        transform: none !important; 
+        z-index: 1;
     }
 
     .main-content {
         padding: 30px;
-        padding-top: 30px; /* Reseteo del padding superior */
+        padding-top: 30px; 
     }
 }
+    body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+    .project-title {
+            color: #f8f9fa;
+        }
+    .project-description p {
+            color: #f8f9fa;
+        }
+    .project-description a {
+            color: #f8f9fa;
+        }
+    /* ==========================================================================
+   Botones de Recursos y Descargas
+   ========================================================================== */
+.project-resources {
+    display: flex;
+    flex-wrap: wrap; /* Permite que bajen si la pantalla es muy chica */
+    gap: 10px;       /* Separación uniforme entre botones */
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.btn-resource {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* Espacio entre el icono SVG y el texto */
+    background-color: var(--bg-sidebar);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem; /* Tamaño pequeño y discreto */
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s, border-color 0.2s;
+}
+
+/* Efectos al pasar el mouse y clickear */
+.btn-resource:hover {
+    background-color: rgba(0, 118, 214, 0.05);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.btn-resource:active {
+    transform: scale(0.97); /* Pequeño efecto táctil de hundimiento */
+}
+
+/* Ajuste específico para que en celulares muy angostos ocupen todo el ancho si es necesario */
+@media (max-width: 480px) {
+    .project-resources {
+        flex-direction: column; /* Se apilan verticalmente en pantallas diminutas */
+    }
+    .btn-resource {
+        width: 100%;
+    }
+}
+    
