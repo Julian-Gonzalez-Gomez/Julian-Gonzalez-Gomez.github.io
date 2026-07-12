@@ -1,3 +1,3 @@
 # Mi Portfolio!
 
-https://julian-gonzalez-gomez.github.io/
+gonzalezjulian.dpdns.org/
