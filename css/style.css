@@ -1,0 +1,260 @@
+:root {
+  --pitch-black: #0A0605;
+  --carbon-black: #1F1B19;
+  --rich-mahogany: #461608;
+  --brandy: #88290D;
+  --rusty-spice: #B25126;
+
+  --text-light: #F4EBE8;
+  --text-muted: #C0AFA8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--carbon-black);
+  color: var(--text-light);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3 {
+  color: var(--rusty-spice);
+}
+
+a {
+  color: var(--brandy);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--rusty-spice);
+}
+
+.card, .container {
+  background-color: var(--pitch-black);
+  border: 1px solid var(--rich-mahogany);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+/* Clase reutilizable para la tarjeta del menú */
+.menu-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--pitch-black);
+    border: 1px solid var(--rich-mahogany);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--rusty-spice);
+}
+
+/* Cuadrado que engloba el icono izquierdo */
+.menu-card-icon-box {
+    width: 3.25rem;
+    height: 3.25rem;
+    background-color: rgba(136, 41, 13, 0.25);
+    border-radius: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 1rem;
+}
+
+/* Icono dentro del cuadrado */
+.menu-card-icon-box i {
+    color: var(--rusty-spice);
+    font-size: 1.25rem;
+}
+
+/* Bloque central (Título y Descripción) */
+.menu-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.menu-card-title {
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.25;
+}
+
+.menu-card-description {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+}
+
+/* Flecha exterior derecha */
+.menu-card-external-icon {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-left: 0.75rem;
+}
+/* Layout base para empujar el nav al fondo si hay poco contenido */
+body {
+    background-color: var(--carbon-black);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+}
+
+/* Contenedor principal con margen superior e inferior */
+.container {
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 6rem 1.25rem; /* El padding inferior evita que la nav tape el contenido */
+    flex: 1;
+}
+
+/* Tarjeta del Proyecto */
+.card {
+    background: linear-gradient(145deg, rgba(178, 81, 38, 0.12), rgba(136, 41, 13, 0.05));
+    border: 1px solid var(--rich-mahogany);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Tipografía de la Tarjeta */
+.card h1 {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.card h3 {
+    color: var(--rusty-spice);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+/* Cita (Blockquote) con acento lateral */
+.card blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-left: 4px solid var(--rusty-spice);
+    border-radius: 0 0.75rem 0.75rem 0;
+    font-style: italic;
+    color: var(--text-light);
+}
+
+.card blockquote p {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--rusty-spice);
+    font-style: normal;
+    text-align: right;
+}
+
+/* Enlaces de Archivos / Documentación */
+.doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+}
+
+.doc-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--pitch-black);
+    border: 1px solid var(--rich-mahogany);
+    border-radius: 0.75rem;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.doc-item:hover {
+    border-color: var(--rusty-spice);
+    transform: translateX(4px);
+    color: var(--rusty-spice);
+}
+
+.doc-item i {
+    color: var(--rusty-spice);
+    font-size: 1.1rem;
+}
+
+/* Barra de Navegación Inferior Fija */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--pitch-black);
+    border-top: 1px solid var(--rich-mahogany);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    overflow-x: auto;
+}
+
+.bottom-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.bottom-nav a:hover {
+    color: var(--text-light);
+    background-color: rgba(136, 41, 13, 0.15);
+}
+
+.bottom-nav a.active {
+    color: var(--text-light);
+    background-color: var(--rusty-spice);
+    font-weight: 600;
+}

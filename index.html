@@ -4,123 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julián González Gómez | Porfolio</title>
+    
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="./css/style.css">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font Awesome para Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-    </style>
 </head>
-<body class="text-slate-200 font-sans min-h-screen flex flex-col items-center justify-between p-6Selection">
+<body class="min-h-screen flex flex-col items-center justify-between p-6 md:p-12 antialiased" style="background-color: var(--carbon-black);">
 
-    <!-- Contenedor Principal -->
-    <main class="w-full max-w-md mx-auto flex flex-col items-center mt-10 mb-8">
-        
-        <!-- Foto de Perfil / Avatar -->
-        <div class="relative w-28 h-28 mb-4 rounded-full p-1 bg-gradient-to-tr from-orange-500 to-amber-400 shadow-xl">
-            <div class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center overflow-hidden">
-                <!-- Icono por defecto elegante. Puedes reemplazar el <i> por un <img src="tu-foto.jpg"> -->
-                <img src="profile.jpg" alt="Foto de Perfil" class="w-full h-full object-cover">
+    <!-- Contenedor Principal Centrado con Top Margin amplio (pt-16 md:pt-24) -->
+    <main class="w-full max-w-md pt-16 md:pt-24 mb-auto flex flex-col items-center">
+
+        <!-- Header / Perfil con mayor espacio inferior hacia la lista (mb-12 md:mb-16) -->
+        <div class="flex flex-col items-center text-center mb-12 md:mb-16">
+            <div class="relative w-28 h-28 md:w-36 md:h-36 mb-6 rounded-full p-1 shadow-xl transition-transform hover:scale-105" style="background: linear-gradient(135deg, var(--rusty-spice), var(--brandy));">
+                <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden" style="background-color: var(--pitch-black);">
+                    <img src="profile.jpg" alt="Foto de Perfil" class="w-full h-full object-cover">
+                </div>
             </div>
-        </div>
-        
-        <!-- Nombre y Titular -->
-        <h1 class="text-2xl font-bold text-white tracking-wide">Julián González Gómez</h1>
-        <p class="text-amber-400 font-medium text-sm sm:text-base mt-1 mb-3">Estudiante de Informática & Geografía</p>
-        
-        <!-- Breve Biografía -->
-        <p class="text-center text-slate-400 text-sm px-4 mb-8 leading-relaxed">
-            Desarrollo de software, cartografía y análisis Territorial.
-        </p>
-
-        <!-- Bloque de Redes Sociales Principales -->
-        <div class="w-full space-y-4">
             
-            <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/julian-gonzalez-gomez-49585a351/" target="_blank" rel="noopener noreferrer" 
-               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-blue-500 hover:-translate-y-0.5 shadow-md">
-                <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <i class="fa-brands fa-linkedin-in text-lg"></i>
-                    </div>
-                    <div class="text-left">
-                        <span class="block text-sm font-semibold text-white">LinkedIn</span>
-                        <span class="block text-xs text-slate-400">Conecta conmigo profesionalmente</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-400 transition-colors"></i>
-            </a>
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/juliangonzalez._/" target="_blank" rel="noopener noreferrer" 
-               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-pink-500 hover:-translate-y-0.5 shadow-md">
-                <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 rounded-lg bg-pink-600/20 flex items-center justify-center text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-amber-500 group-hover:to-pink-600 group-hover:text-white transition-all">
-                        <i class="fa-brands fa-instagram text-lg"></i>
-                    </div>
-                    <div class="text-left">
-                        <span class="block text-sm font-semibold text-white">Instagram</span>
-                        <span class="block text-xs text-slate-400">Día a día</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-pink-400 transition-colors"></i>
-            </a>
-            <!-- GitHub -->
-            <a href="https://github.com/Julian-Gonzalez-Gomez" target="_blank" rel="noopener noreferrer" 
-               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-purple-500 hover:-translate-y-0.5 shadow-md">
-                <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
-                        <i class="fa-brands fa-github text-lg"></i>
-                    </div>
-                    <div class="text-left">
-                        <span class="block text-sm font-semibold text-white">GitHub</span>
-                        <span class="block text-xs text-slate-400">Mis repositorios y proyectos de código</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-400 transition-colors"></i>
-            </a>
-            <!-- Proyectos -->
-            <a href="./Proyecto1/index.html" target="_blank" rel="noopener noreferrer" 
-               class="group flex items-center justify-between p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl transition-all duration-300 hover:bg-slate-700/70 hover:border-pink-500 hover:-translate-y-0.5 shadow-md">
-                <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center text-white-400 group-hover:bg-gradient-to-tr group-hover:from-amber-500 group-hover:to-pink-600 group-hover:text-white transition-all">
-                        <i class="fa-solid fa-earth-americas"></i></div>
-                    <div class="text-left">
-                        <span class="block text-sm font-semibold text-white">Proyectos</span>
-                        <span class="block text-xs text-slate-400">Publicaciones academicas y otras cosas</span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-pink-400 transition-colors"></i>
-            </a>
-
-
+            <h1 class="text-2xl md:text-3xl font-bold tracking-wide" style="color: var(--text-light);">Julián González Gómez</h1>
+            <p class="font-medium text-sm md:text-base mt-2 mb-3" style="color: var(--rusty-spice);">Estudiante de Informática & Geografía</p>
+            
+            <p class="text-center text-xs md:text-sm px-2 leading-relaxed" style="color: var(--text-muted);">
+                Desarrollo de software, cartografía y análisis territorial.
+            </p>
         </div>
 
-        <!-- Sección Destacada de Proyectos / Enfoque -->
-        <div class="w-full mt-8 pt-6 border-t border-slate-800">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 text-center">Intereses & Proyectos</h2>
-            <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
-                    <i class="fa-solid fa-code text-amber-500 mb-1 block text-sm"></i>
-                    <span class="text-slate-300 font-medium">Desarrollo</span>
+        <!-- Menú de Enlaces en Lista Centrada -->
+        <div class="w-full flex flex-col gap-3.5">
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/julian-gonzalez-gomez-49585a351/" target="_blank" rel="noopener noreferrer" class="menu-card">
+                <div class="menu-card-icon-box">
+                    <i class="fa-brands fa-linkedin-in"></i>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
-                    <i class="fa-solid fa-earth-americas text-blue-400 mb-1 block text-sm"></i>
-                    <span class="text-slate-300 font-medium">Geografía</span>
+                <div class="menu-card-content">
+                    <span class="menu-card-title">LinkedIn</span>
+                    <span class="menu-card-description">Conecta conmigo profesionalmente</span>
                 </div>
-                <div class="bg-slate-800/40 border border-slate-800 p-3 rounded-lg">
-                    <i class="fa-solid fa-map text-emerald-400 mb-1 block text-sm"></i>
-                    <span class="text-slate-300 font-medium">Cartografía</span>
+                <i class="fa-solid fa-arrow-up-right-from-square menu-card-external-icon"></i>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/juliangonzalez._/" target="_blank" rel="noopener noreferrer" class="menu-card">
+                <div class="menu-card-icon-box">
+                    <i class="fa-brands fa-instagram"></i>
                 </div>
-            </div>
+                <div class="menu-card-content">
+                    <span class="menu-card-title">Instagram</span>
+                    <span class="menu-card-description">Día a día</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square menu-card-external-icon"></i>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/Julian-Gonzalez-Gomez" target="_blank" rel="noopener noreferrer" class="menu-card">
+                <div class="menu-card-icon-box">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+                <div class="menu-card-content">
+                    <span class="menu-card-title">GitHub</span>
+                    <span class="menu-card-description">Repositorios y proyectos de código</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square menu-card-external-icon"></i>
+            </a>
+
+            <!-- Proyectos -->
+            <a href="./proyecto1/index.html" target="_blank" rel="noopener noreferrer" class="menu-card">
+                <div class="menu-card-icon-box">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="menu-card-content">
+                    <span class="menu-card-title">Proyectos</span>
+                    <span class="menu-card-description">Publicaciones y desarrollos</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square menu-card-external-icon"></i>
+            </a>
+
         </div>
 
     </main>
 
-    <!-- Pie de página discreto -->
-    <footer class="text-xs text-slate-600 pb-4">
+    <!-- Pie de página -->
+    <footer class="text-xs pt-12 pb-2" style="color: var(--text-muted);">
         &copy; 2026 • Diseño propio
     </footer>
 
