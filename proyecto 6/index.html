@@ -32,14 +32,12 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .accordion-content {
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transition: max-height 0.3s ease-in-out;
             max-height: 0;
             overflow: hidden;
-            opacity: 0;
         }
         .accordion-content.expanded {
-            max-height: 2500px;
-            opacity: 1;
+            max-height: 4000px;
         }
         .chevron-icon {
             transition: transform 0.2s ease-in-out;
@@ -51,16 +49,24 @@
 </head>
 <body class="h-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex flex-col antialiased">
 
-    <header class="bg-slate-900 text-white border-b border-slate-800 px-4 sm:px-8 py-4 flex items-center justify-between shrink-0 shadow-sm">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white rounded">
-                <i class="fa-solid fa-map text-base"></i>
-            </div>
-            <div>
-                <h1 class="text-base sm:text-lg font-bold tracking-tight">Sistemas de Información Geográfica para Intervención Territorial</h1>
-                <p class="text-xs text-slate-400">Docente: Julián González Gómez • Cátedra Abierta de Software Libre, UNLP</p>
+    <header class="bg-slate-900 text-white border-b border-slate-800 px-4 sm:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4 shrink-0 shadow-sm">
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white rounded">
+                    <i class="fa-solid fa-map text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold tracking-tight">Sistemas de Información Geográfica para Intervención Territorial</h1>
+                    <p class="text-xs text-slate-400">Docente: Julián González Gómez • Cátedra Abierta de Software Libre, UNLP</p>
+                </div>
             </div>
         </div>
+        
+        <!-- Institutional Logo (FTS - UNLP) -->
+        <div class="flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded border border-slate-700 shrink-0">
+            <img src="https://raw.githubusercontent.com/username/repo/main/Logo_chico_blanco_2-1536x302.png" alt="Facultad de Trabajo Social - UNLP" class="h-8 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/220x45/0f172a/ffffff?text=FTS+-+UNLP';">
+        </div>
+
         <div class="flex items-center space-x-2">
             <button id="installBtn" class="hidden items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium px-3 py-2 rounded border border-slate-700 transition">
                 <i class="fa-solid fa-download"></i>
@@ -78,9 +84,9 @@
         <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <div>
                 <h2 class="text-lg font-bold">Aula Virtual - Contenidos del Curso</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Haga clic en la flecha o en el título de cada apartado para expandir o cerrar su contenido.</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Haga clic en cada apartado para expandir o cerrar su contenido.</p>
             </div>
-            <button onclick="toggleAll(false)" class="text-xs text-slate-600 dark:text-slate-400 hover:underline px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700">Cerrar todos</button>
+            <button onclick="toggleAll(false)" class="text-xs text-slate-600 dark:text-slate-400 hover:underline px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700 font-medium">Cerrar todos</button>
         </div>
 
         <div id="accordion-container" class="space-y-3">
@@ -88,26 +94,6 @@
         </div>
 
     </main>
-
-    <div id="videoModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 hidden">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded w-full max-w-3xl overflow-hidden shadow-xl">
-            <div class="flex items-center justify-between p-4 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-                <h3 id="modalTitle" class="font-bold text-sm sm:text-base flex items-center space-x-2">
-                    <i class="fa-solid fa-play text-slate-700 dark:text-slate-300"></i>
-                    <span>Clase Grabada</span>
-                </h3>
-                <button onclick="closeVideoModal()" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <div class="aspect-video w-full bg-black flex items-center justify-center">
-                <iframe id="modalIframe" class="w-full h-full" src="" title="Clase grabada" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="p-3 bg-slate-50 dark:bg-slate-800/50 flex justify-end border-t border-slate-200 dark:border-slate-700">
-                <button onclick="closeVideoModal()" class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded text-xs font-semibold transition">Cerrar</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         const sectionsData = [
@@ -169,27 +155,16 @@
                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
                             </a>
 
-                            <button onclick="openVideoModal('Como instalar QGIS', 'https://www.youtube.com/watch?v=GNgHe0W_sH4')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
-                                <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
-                                    <div>
-                                        <p class="font-medium text-slate-900 dark:text-white">Como instalar QGIS</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Tener preparado para el 2do encuentro</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-circle-play text-red-600"></i>
-                            </button>
-
-                            <button onclick="openVideoModal('1er Encuentro - Clase Grabada', https://www.youtube.com/watch?v=WsUS4sxnlCM')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                            <a href="https://www.youtube.com/watch?v=WsUS4sxnlCM" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-play text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">1er encuentro - Clase Grabada</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo del encuentro inaugural</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo del encuentro inaugural (YouTube)</p>
                                     </div>
                                 </div>
-                                <i class="fa-solid fa-circle-play text-red-600"></i>
-                            </button>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
                         </div>
                     </div>
                 `
@@ -217,16 +192,16 @@
                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
                             </a>
 
-                            <button onclick="openVideoModal('2do Encuentro - Clase Práctica QGIS', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                            <a href="https://www.youtube.com/watch?v=GNgHe0W_sH4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-play text-red-600 text-lg"></i>
                                     <div>
-                                        <p class="font-medium text-slate-900 dark:text-white">2do encuentro - Clase Grabada</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video práctico sobre QGIS</p>
+                                        <p class="font-medium text-slate-900 dark:text-white">Tutorial: Cómo instalar QGIS</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo de instalación (YouTube)</p>
                                     </div>
                                 </div>
-                                <i class="fa-solid fa-circle-play text-red-600"></i>
-                            </button>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
                         </div>
                     </div>
                 `
@@ -242,16 +217,16 @@
                         
                         <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
                             <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
-                            <button onclick="openVideoModal('3er Encuentro - Clase Grabada', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-play text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">3er encuentro - Clase Grabada</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del tercer encuentro</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del tercer encuentro (YouTube)</p>
                                     </div>
                                 </div>
-                                <i class="fa-solid fa-circle-play text-red-600"></i>
-                            </button>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
                         </div>
                     </div>
                 `
@@ -276,16 +251,16 @@
 
                         <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
                             <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
-                            <button onclick="openVideoModal('4to Encuentro - Taller Final y Cierre', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
                                     <i class="fa-solid fa-play text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">4to encuentro - Taller Final (Clase Grabada)</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del taller de cierre</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del taller de cierre (YouTube)</p>
                                     </div>
                                 </div>
-                                <i class="fa-solid fa-circle-play text-red-600"></i>
-                            </button>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
                         </div>
                     </div>
                 `
@@ -347,7 +322,6 @@
                             <p class="text-xs text-slate-500 dark:text-slate-400 pl-6">${sec.meta}</p>
                         </div>
                         <div class="flex items-center space-x-2 shrink-0">
-                            <span class="text-xs text-slate-400 font-mono font-bold">\\/</span>
                             <i id="icon-${sec.id}" class="fa-solid fa-chevron-down text-slate-500 text-sm chevron-icon ${sec.defaultOpen ? 'rotate-180' : ''}"></i>
                         </div>
                     </button>
@@ -386,17 +360,6 @@
                     icon.classList.remove('rotate-180');
                 }
             });
-        }
-
-        function openVideoModal(title, url) {
-            document.getElementById('modalTitle').querySelector('span').textContent = title;
-            document.getElementById('modalIframe').src = url;
-            document.getElementById('videoModal').classList.remove('hidden');
-        }
-
-        function closeVideoModal() {
-            document.getElementById('videoModal').classList.add('hidden');
-            document.getElementById('modalIframe').src = '';
         }
 
         let deferredPrompt;
