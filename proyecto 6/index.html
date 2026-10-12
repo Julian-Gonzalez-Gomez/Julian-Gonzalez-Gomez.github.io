@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sistemas de Información Geográfica para Intervención Territorial</title>
+    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22SIG%20para%20Intervenci%C3%B3n%20Territorial%22%2C%22short_name%22%3A%22Aula%20SIG%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F0f172a%2Fffffff%3Ftext%3DSIG%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#151f33',
+                            900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .accordion-content.expanded {
+            max-height: 2500px;
+            opacity: 1;
+        }
+        .chevron-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .expanded .chevron-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="h-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex flex-col antialiased">
+
+    <header class="bg-slate-900 text-white border-b border-slate-800 px-4 sm:px-8 py-4 flex items-center justify-between shrink-0 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white rounded">
+                <i class="fa-solid fa-map text-base"></i>
+            </div>
+            <div>
+                <h1 class="text-base sm:text-lg font-bold tracking-tight">Sistemas de Información Geográfica para Intervención Territorial</h1>
+                <p class="text-xs text-slate-400">Docente: Julián González Gómez • Cátedra Abierta de Software Libre, UNLP</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button id="installBtn" class="hidden items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium px-3 py-2 rounded border border-slate-700 transition">
+                <i class="fa-solid fa-download"></i>
+                <span class="hidden sm:inline">Instalar App</span>
+            </button>
+            <button id="themeToggle" class="p-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition" aria-label="Cambiar tema">
+                <i class="fa-solid fa-moon dark:hidden text-sm"></i>
+                <i class="fa-solid fa-sun hidden dark:block text-sm text-amber-300"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto max-w-4xl w-full mx-auto p-4 sm:p-8 space-y-4">
+        
+        <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold">Aula Virtual - Contenidos del Curso</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Haga clic en la flecha (\/) o en el título de cada apartado para expandir o cerrar su contenido.</p>
+            </div>
+            <button onclick="toggleAll(false)" class="text-xs text-slate-600 dark:text-slate-400 hover:underline px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700">Cerrar todos</button>
+        </div>
+
+        <div id="accordion-container" class="space-y-3">
+            <!-- Dynamically populated solid accordions -->
+        </div>
+
+    </main>
+
+    <div id="videoModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded w-full max-w-3xl overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between p-4 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                <h3 id="modalTitle" class="font-bold text-sm sm:text-base flex items-center space-x-2">
+                    <i class="fa-solid fa-play text-slate-700 dark:text-slate-300"></i>
+                    <span>Clase Grabada</span>
+                </h3>
+                <button onclick="closeVideoModal()" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="aspect-video w-full bg-black flex items-center justify-center">
+                <iframe id="modalIframe" class="w-full h-full" src="" title="Clase grabada" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-slate-800/50 flex justify-end border-t border-slate-200 dark:border-slate-700">
+                <button onclick="closeVideoModal()" class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded text-xs font-semibold transition">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sectionsData = [
+            {
+                id: 'fundamentacion',
+                title: 'Fundamentación y Propuesta del Curso',
+                meta: 'Modalidad Híbrida • 4 encuentros de 2hs (Octubre)',
+                defaultOpen: true,
+                content: `
+                    <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded">
+                            <p class="font-semibold text-slate-900 dark:text-white mb-1">Fechas de cursada:</p>
+                            <p>9, 16, 23 y 30 de octubre.</p>
+                        </div>
+                        <p><strong>Fundamentación:</strong> El uso de información técnica de análisis espacial permite fortalecer y profundizar el conocimiento sobre las estructuras y dinámicas territoriales en pos de mejorar y orientar el accionar tanto público y privado como popular. La generación y sistematización de información geoespacial abarca un amplio espectro, nutriéndose de relevamientos técnicos, registros administrativos y múltiples iniciativas de producción colectiva/popular.</p>
+                        <p>Estos desarrollos aplicados a la intervención territorial permitirán a los estudiantes generar y analizar información georreferenciada mediante herramientas técnicas libres (como QGIS) para fundamentar estrategias de intervención acorde a sus necesidades específicas.</p>
+                        <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <p class="font-semibold text-slate-900 dark:text-white mb-2">Objetivos específicos:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Introducir herramientas y técnicas que permitan incorporar datos para la gestión comunitaria del riesgo.</li>
+                                <li>Dar a conocer políticas públicas sobre acceso a la información valiosas para el trabajo técnico.</li>
+                                <li>Incorporar nociones básicas sobre Sistemas de Información Geográfica y bases de datos georreferenciadas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'unidad1',
+                title: 'Unidad 1: Fundamentos de cartografía y SIG',
+                meta: '1er Encuentro (9 de Octubre)',
+                defaultOpen: false,
+                content: `
+                    <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                        <p><strong>Contenidos:</strong> ¿Qué es un SIG? Introducción a las bases de datos georreferenciadas. Cartografía y Geodesia, la ciencia de medir la tierra y representarla. Cartografía de Argentina. IGN e infraestructura de datos espaciales. Escalas, proyecciones y coordenadas básicas. Variables y tipos de datos. Tipos y su implantación cartográfica.</p>
+                        
+                        <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
+                            
+                            <a href="https://volaya.github.io/libro-sig/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-file-pdf text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">Olaya, V. (2014) - Sistemas de Informacion Geografica</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Libro de consulta principal</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
+
+                            <a href="https://www.ign.gob.ar" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-globe text-blue-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">Instituto Geográfico Nacional - Web Oficial</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Cartografía y geodatos oficiales</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
+
+                            <button onclick="openVideoModal('Como instalar QGIS', 'https://www.youtube.com/watch?v=ylCXDnNcp9Q')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">Como instalar QGIS</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Tener preparado para el 2do encuentro</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-play text-red-600"></i>
+                            </button>
+
+                            <button onclick="openVideoModal('1er Encuentro - Clase Grabada', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">1er encuentro - Clase Grabada</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo del encuentro inaugural</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-play text-red-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'unidad2',
+                title: 'Unidad 2: Aplicación',
+                meta: '2do Encuentro (16 de Octubre)',
+                defaultOpen: false,
+                content: `
+                    <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                        <p><strong>Contenidos:</strong> Aplicaciones de los SIG al estudio, planificación y gestión del territorio. Capas vectoriales: Su carga, modificación y creación en el entorno QGIS. Capas raster: Su carga y utilización. Simbología: Cómo representar variables. Acceso a información georreferenciada. Interacción de QGIS con otras herramientas y bases de datos.</p>
+                        
+                        <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
+                            
+                            <a href="https://docs.qgis.org/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-book text-emerald-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">QGIS Documentation (Versión 3.34/3.44)</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Guía técnica oficial</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
+                            </a>
+
+                            <button onclick="openVideoModal('2do Encuentro - Clase Práctica QGIS', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">2do encuentro - Clase Grabada</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video práctico sobre QGIS</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-play text-red-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'unidad3',
+                title: 'Unidad 3: Aplicación Nivel 2',
+                meta: '3er Encuentro (23 de Octubre)',
+                defaultOpen: false,
+                content: `
+                    <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                        <p><strong>Contenidos:</strong> Caja de herramientas y complementos. Aproximación a relevamientos digitales. Herramientas Libres para la creación y publicación de mapas. Introducción al análisis territorial.</p>
+                        
+                        <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
+                            <button onclick="openVideoModal('3er Encuentro - Clase Grabada', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">3er encuentro - Clase Grabada</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del tercer encuentro</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-play text-red-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'unidad4',
+                title: 'Unidad 4: Taller Final',
+                meta: '4to Encuentro (30 de Octubre)',
+                defaultOpen: false,
+                content: `
+                    <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                        <p><strong>Contenidos:</strong> Producción de mapas temáticos en base a los conocimientos obtenidos durante el curso. Se pretende que quienes cursen utilicen información georreferenciada obtenida de servicios oficiales y la conjuguen con otra producida localmente o durante el taller.</p>
+                        
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-2">
+                            <p class="font-semibold text-slate-900 dark:text-white">Evaluación y acreditación:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Asistencia a los encuentros.</li>
+                                <li>Realización de actividades propuestas en cada módulo.</li>
+                                <li>Entrega de la actividad integradora final.</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
+                            <button onclick="openVideoModal('4to Encuentro - Taller Final y Cierre', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition text-left">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">4to encuentro - Taller Final (Clase Grabada)</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Video del taller de cierre</p>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-play text-red-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'bibliografia',
+                title: 'Bibliografía y Recursos Pedagógicos',
+                meta: 'Autores y Repositorios oficiales (UNLP / EDULP)',
+                defaultOpen: false,
+                content: `
+                    <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Bertin, J. (1988). <em>La gráfica y el tratamiento gráfico de la información</em>. Taurus.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Buzai, G. D. (2003). <em>Mapas sociales urbanos</em>. Lugar Editorial.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Buzai, G. D. (2010). <em>Construcción de mapas mentales mediante apoyo geoinformático</em>. UNLu.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Claramunt, S. y Diotto, P. (2020). La gestión de riesgo desde el territorio. <em>Question/Cuestión</em>, 1(junio), e358.</p>
+                            <a href="https://doi.org/10.24215/16696581e358" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center space-x-1 mt-1"><i class="fa-solid fa-link"></i><span>DOI: 10.24215/16696581e358</span></a>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Claramunt, S. M., Diotto, P. A. y Trovero, J. (2021). En Villa Elisa tamo' REDIS. Facultad de Trabajo Social, UNLP.</p>
+                            <a href="http://sedici.unlp.edu.ar/handle/10915/130755" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center space-x-1 mt-1"><i class="fa-solid fa-link"></i><span>SEDICI UNLP</span></a>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Diotto, P. A. (Comp. / Ed.). (2024). <em>Gestión comunitaria del riesgo</em>. Editorial EDULP.</p>
+                            <a href="http://sedici.unlp.edu.ar/handle/10915/182282" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center space-x-1 mt-1"><i class="fa-solid fa-link"></i><span>SEDICI / EDULP</span></a>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Fernández, S. y Del Río, J. P. (2010). <em>Sistemas de Información Geográfica para el Ordenamiento Territorial</em>. Ministerio de Infraestructura PBA.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Parellada, C. y Castorina, J. A. (2019). Una propuesta de diálogo entre la psicología del desarrollo y la cartografía crítica. <em>Cadernos de Pesquisa</em>.</p>
+                            <a href="https://doi.org/10.1590/198053145469" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center space-x-1 mt-1"><i class="fa-solid fa-link"></i><span>DOI: 10.1590/198053145469</span></a>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded space-y-1">
+                            <p class="font-medium text-slate-900 dark:text-white">Sánchez Actis, T. et al. (2015). <em>Riesgos de inundación: conocimiento científico y saberes populares</em>. FaHCE-UNLP.</p>
+                            <a href="http://www.memoria.fahce.unlp.edu.ar/trab_eventos/ev.9443/ev.9443.pdf" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center space-x-1 mt-1"><i class="fa-solid fa-link"></i><span>Memoria Académica FaHCE</span></a>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function renderAccordions() {
+            const container = document.getElementById('accordion-container');
+            container.innerHTML = sectionsData.map(sec => `
+                <div class="border border-slate-200 dark:border-slate-800 rounded bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
+                    <button onclick="toggleAccordion('${sec.id}')" class="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 transition focus:outline-none">
+                        <div class="space-y-0.5 pr-2">
+                            <h3 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center space-x-2">
+                                <i class="fa-solid fa-folder text-amber-500"></i>
+                                <span>${sec.title}</span>
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 pl-6">${sec.meta}</p>
+                        </div>
+                        <div class="flex items-center space-x-2 shrink-0">
+                            <span class="text-xs text-slate-400 font-mono font-bold">\\/</span>
+                            <i id="icon-${sec.id}" class="fa-solid fa-chevron-down text-slate-500 text-sm chevron-icon ${sec.defaultOpen ? 'rotate-180' : ''}"></i>
+                        </div>
+                    </button>
+                    <div id="content-${sec.id}" class="accordion-content ${sec.defaultOpen ? 'expanded' : ''}">
+                        <div class="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+                            ${sec.content}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            const isExpanded = content.classList.contains('expanded');
+            
+            if (isExpanded) {
+                content.classList.remove('expanded');
+                icon.classList.remove('rotate-180');
+            } else {
+                content.classList.add('expanded');
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        function toggleAll(open) {
+            sectionsData.forEach(sec => {
+                const content = document.getElementById(`content-${sec.id}`);
+                const icon = document.getElementById(`icon-${sec.id}`);
+                if (open) {
+                    content.classList.add('expanded');
+                    icon.classList.add('rotate-180');
+                } else {
+                    content.classList.remove('expanded');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        }
+
+        function openVideoModal(title, url) {
+            document.getElementById('modalTitle').querySelector('span').textContent = title;
+            document.getElementById('modalIframe').src = url;
+            document.getElementById('videoModal').classList.remove('hidden');
+        }
+
+        function closeVideoModal() {
+            document.getElementById('videoModal').classList.add('hidden');
+            document.getElementById('modalIframe').src = '';
+        }
+
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+            installBtn.classList.add('flex');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.classList.add('hidden');
+            }
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        window.onload = function() {
+            renderAccordions();
+        };
+    </script>
+</body>
+</html>
