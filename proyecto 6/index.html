@@ -61,11 +61,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Institutional Logo (FTS - UNLP) -->
-        <div class="flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded border border-slate-700 shrink-0">
-            <img src="proyecto 6/LogoFTS.png" alt="Facultad de Trabajo Social - UNLP" class="h-8 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/220x45/0f172a/ffffff?text=FTS+-+UNLP';">
-        </div>
 
         <div class="flex items-center space-x-2">
             <button id="installBtn" class="hidden items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium px-3 py-2 rounded border border-slate-700 transition">
@@ -81,12 +76,19 @@
 
     <main class="flex-1 overflow-y-auto max-w-4xl w-full mx-auto p-4 sm:p-8 space-y-4">
         
-        <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
                 <h2 class="text-lg font-bold">Aula Virtual - Contenidos del Curso</h2>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Haga clic en cada apartado para expandir o cerrar su contenido.</p>
             </div>
-            <button onclick="toggleAll(false)" class="text-xs text-slate-600 dark:text-slate-400 hover:underline px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700 font-medium">Cerrar todos</button>
+            <div class="flex items-center justify-between sm:justify-end gap-3">
+                <!-- Contador de Visitas -->
+                <div class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-eye text-amber-500"></i>
+                    <span>Visitas: <strong id="visit-count" class="text-slate-900 dark:text-white">...</strong></span>
+                </div>
+                <button onclick="toggleAll(false)" class="text-xs text-slate-600 dark:text-slate-400 hover:underline px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700 font-medium">Cerrar todos</button>
+            </div>
         </div>
 
         <div id="accordion-container" class="space-y-3">
@@ -155,14 +157,12 @@
                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
                             </a>
 
-                            
-
                             <a href="https://docs.google.com/presentation/d/1FYQjLJBQMQTm8u21E0f9_xLRYKPfsLRGC68kU7gyJvM/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-globe text-blue-600 text-lg"></i>
+                                    <i class="fa-solid fa-desktop text-blue-600 text-lg"></i>
                                     <div>
-                                        <p class="font-medium text-slate-900 dark:text-white">Presentacion</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">1er encuentro</p>
+                                        <p class="font-medium text-slate-900 dark:text-white">Presentación - 1er Encuentro</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Diapositivas oficiales de la clase</p>
                                     </div>
                                 </div>
                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400"></i>
@@ -170,7 +170,7 @@
 
                             <a href="https://www.youtube.com/watch?v=WsUS4sxnlCM" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">1er encuentro - Clase Grabada</p>
                                         <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo del encuentro inaugural (YouTube)</p>
@@ -207,7 +207,7 @@
 
                             <a href="https://www.youtube.com/watch?v=GNgHe0W_sH4" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">Tutorial: Cómo instalar QGIS</p>
                                         <p class="text-xs text-slate-500 dark:text-slate-400">Video explicativo de instalación (YouTube)</p>
@@ -232,7 +232,7 @@
                             <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
                             <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">3er encuentro - Clase Grabada</p>
                                         <p class="text-xs text-slate-500 dark:text-slate-400">Video del tercer encuentro (YouTube)</p>
@@ -266,7 +266,7 @@
                             <p class="font-semibold text-slate-900 dark:text-white">Recursos y Materiales:</p>
                             <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                                 <div class="flex items-center space-x-3">
-                                    <i class="fa-solid fa-play text-red-600 text-lg"></i>
+                                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
                                     <div>
                                         <p class="font-medium text-slate-900 dark:text-white">4to encuentro - Taller Final (Clase Grabada)</p>
                                         <p class="text-xs text-slate-500 dark:text-slate-400">Video del taller de cierre (YouTube)</p>
@@ -375,6 +375,25 @@
             });
         }
 
+        // Obtener / Incrementar contador de visitas vía CountAPI
+        async function fetchVisitCount() {
+            const counterEl = document.getElementById('visit-count');
+            try {
+                const response = await fetch('https://api.countapi.xyz/hit/sig-aula-virtual-unlp/visitas');
+                const data = await response.json();
+                if (data && typeof data.value === 'number') {
+                    counterEl.textContent = data.value.toLocaleString();
+                } else {
+                    counterEl.textContent = '1+';
+                }
+            } catch (err) {
+                let localVisits = localStorage.getItem('sig_visits');
+                localVisits = localVisits ? parseInt(localVisits) + 1 : 1;
+                localStorage.setItem('sig_visits', localVisits);
+                counterEl.textContent = localVisits.toLocaleString();
+            }
+        }
+
         let deferredPrompt;
         const installBtn = document.getElementById('installBtn');
 
@@ -415,6 +434,7 @@
 
         window.onload = function() {
             renderAccordions();
+            fetchVisitCount();
         };
     </script>
 </body>
