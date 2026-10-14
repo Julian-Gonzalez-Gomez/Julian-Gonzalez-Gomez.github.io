@@ -123,11 +123,17 @@
             resultCount.textContent = '';
 
             try {
-                // Consulta SQL flexible que busca coincidencias parciales (case-insensitive) 
-                // en cualquier columna (DNI, Legajo, Apellido y Nombre) casteándolas a texto de forma segura.
+                // 1. Obtenemos dinámicamente los nombres de las columnas del padrón
+                const columnsResult = await conn.query(`DESCRIBE padron;`);
+                const columns = columnsResult.toArray().map(col => col.column_name);
+
+                // 2. Construimos una cláusula WHERE que busque con ILIKE en todas las columnas de texto/número
+                const terminoEscapado = termino.replace(/'/g, "''");
+                const conditions = columns.map(col => `CAST("${col}" AS VARCHAR) ILIKE '%${terminoEscapado}%'`).join(' OR ');
+
                 const query = `
                     SELECT * FROM padron 
-                    WHERE CAST(* AS VARCHAR) ILIKE '%${termino.replace(/'/g, "''")}%'
+                    WHERE ${conditions}
                     LIMIT 50;
                 `;
 
@@ -178,7 +184,7 @@
                 showError("Ocurrió un error al procesar la búsqueda: " + err.message);
             }
         }
-
+        
         // Eventos
         searchBtn.addEventListener('click', realizarBusqueda);
         searchInput.addEventListener('keypress', (e) => {
