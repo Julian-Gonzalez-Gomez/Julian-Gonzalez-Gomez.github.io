@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Padrón - Facultad de Informática (UNLP)</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light">
+
+    <div class="container py-5" style="max-width: 900px;">
+        <!-- Encabezado de la App -->
+        <header class="text-center pb-4 mb-4 border-bottom">
+            <h1 class="h3 fw-bold text-primary mb-1"><i class="bi bi-person-badge"></i> Consulta_Padron_Info</h1>
+            <p class="text-muted mb-0">Facultad de Informática - UNLP</p>
+        </header>
+
+        <!-- Buscador Principal -->
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-body p-4">
+                <label for="searchInput" class="form-label fw-semibold text-secondary">
+                    <i class="bi bi-search"></i> Ingresá tu DNI, Legajo o Nombre y Apellido:
+                </label>
+                <div class="input-group input-group-lg">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Ej: 42333444, F12345, o Juan Pérez" disabled>
+                    <button class="btn btn-primary px-4" type="button" id="searchBtn" disabled>
+                        Consultar
+                    </button>
+                </div>
+                <div class="form-text mt-2" id="statusText">Inicializando motor de búsqueda...</div>
+            </div>
+        </div>
+
+        <!-- Resultados de la Consulta -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bold text-dark"><i class="bi bi-journal-text"></i> Resultados de la Consulta</span>
+                <span id="resultCount" class="badge bg-secondary-subtle text-secondary"></span>
+            </div>
+            <div class="card-body p-4">
+                <div id="loading" class="text-center py-4 text-muted d-none">
+                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                    Buscando en el padrón...
+                </div>
+                <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+                <div id="resultContainer">
+                    <p class="text-muted text-center py-4 mb-0">Escribí tus datos arriba y hacé clic en Consultar para ver tu información.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lógica DuckDB-WASM -->
+    <script type="module">
+        import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.28.0/+esm';
+
+        let db = null;
+        let conn = null;
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const loading = document.getElementById('loading');
+        const errorAlert = document.getElementById('errorAlert');
+        const statusText = document.getElementById('statusText');
+        const resultCount = document.getElementById('resultCount');
+
+        const CSV_FILENAME = 'Padron.csv'
+        async function initApp() {
+            try {
+                // 1. Inicializar DuckDB-WASM
+                const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
+                const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
+
+                const worker_url = URL.createObjectURL(
+                    new Blob([`importScripts("${bundle.mainWorker}");`], { type: 'text/javascript' })
+                );
+
+                const worker = new Worker(worker_url);
+                const logger = new duckdb.ConsoleLogger();
+                db = new duckdb.AsyncDuckDB(logger, worker);
+                await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+                
+                conn = await db.connect();
+
+                // 2. Cargar el padrón predeterminado
+                statusText.textContent = "Cargando padrón de la facultad...";
+                const response = await fetch(Padron.csv);
+                if (!response.ok) throw new Error(`No se encontró el archivo '${CSV_FILENAME}' en el servidor.`);
+                
+                const csvText = await response.text();
+                await db.registerFileText(Padron.csv, csvText);
+                await conn.query(`CREATE TABLE padron AS SELECT * FROM read_csv_auto('${CSV_FILENAME}', header=true);`);
+
+                // Habilitar controles
+                statusText.textContent = "Padrón listo. Sistema operativo.";
+                statusText.className = "form-text mt-2 text-success fw-semibold";
+                searchInput.removeAttribute('disabled');
+                searchBtn.removeAttribute('disabled');
+
+            } catch (err) {
+                statusText.textContent = "Error al cargar el padrón.";
+                statusText.className = "form-text mt-2 text-danger fw-semibold";
+                showError("No se pudo iniciar la app: " + err.message + " (Verificá que el archivo 'padron.csv' esté en la misma carpeta).");
+            }
+        }
+
+        async function realizarBusqueda() {
+            if (!conn) return;
+
+            const termino = searchInput.value.trim();
+            if (termino.length < 2) {
+                showError("Por favor, ingresá al menos 2 caracteres para buscar.");
+                return;
+            }
+
+            loading.classList.remove('d-none');
+            hideError();
+            resultContainer.innerHTML = '';
+            resultCount.textContent = '';
+
+            try {
+                // Consulta SQL flexible que busca coincidencias parciales (case-insensitive) 
+                // en cualquier columna (DNI, Legajo, Apellido y Nombre) casteándolas a texto de forma segura.
+                const query = `
+                    SELECT * FROM padron 
+                    WHERE CAST(* AS VARCHAR) ILIKE '%${termino.replace(/'/g, "''")}%'
+                    LIMIT 50;
+                `;
+
+                const arrowTable = await conn.query(query);
+                const rows = arrowTable.toArray().map(row => row.toJSON());
+
+                loading.classList.add('d-none');
+                resultCount.textContent = `${rows.length} resultado(s) encontrado(s)`;
+
+                if (rows.length === 0) {
+                    resultContainer.innerHTML = `
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-exclamation-circle fs-3 d-block mb-2"></i>
+                            No se encontraron registros que coincidan con "<strong>${termino}</strong>". Verificá los datos ingresados.
+                        </div>`;
+                    return;
+                }
+
+                // Renderizar los resultados de forma visual en tarjetas limpias
+                let html = '<div class="row g-3">';
+                rows.forEach((row, index) => {
+                    const keys = Object.keys(row);
+                    html += `
+                        <div class="col-12">
+                            <div class="card border bg-light shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title text-primary fw-bold mb-3">
+                                        <i class="bi bi-person-fill"></i> Registro #${index + 1}
+                                    </h6>
+                                    <div class="row row-cols-1 row-cols-md-2 g-2 small">
+                    `;
+                    keys.forEach(key => {
+                        html += `
+                            <div class="col">
+                                <span class="text-muted fw-semibold">${key}:</span> 
+                                <span class="text-dark">${row[key] !== null ? row[key] : '-'}</span>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div></div></div>`;
+                });
+                html += '</div>';
+
+                resultContainer.innerHTML = html;
+
+            } catch (err) {
+                loading.classList.add('d-none');
+                showError("Ocurrió un error al procesar la búsqueda: " + err.message);
+            }
+        }
+
+        // Eventos
+        searchBtn.addEventListener('click', realizarBusqueda);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') realizarBusqueda();
+        });
+
+        initApp();
+
+        function showError(msg) {
+            errorAlert.textContent = msg;
+            errorAlert.classList.remove('d-none');
+        }
+
+        function hideError() {
+            errorAlert.classList.add('d-none');
+        }
+    </script>
+</body>
+</html>
