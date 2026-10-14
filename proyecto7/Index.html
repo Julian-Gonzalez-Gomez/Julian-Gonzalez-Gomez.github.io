@@ -87,11 +87,11 @@
 
                 // 2. Cargar el padrón predeterminado
                 statusText.textContent = "Cargando padrón de la facultad...";
-                const response = await fetch(Padron.csv);
+                const response = await fetch(proyecto7/Padron.csv);
                 if (!response.ok) throw new Error(`No se encontró el archivo '${CSV_FILENAME}' en el servidor.`);
                 
                 const csvText = await response.text();
-                await db.registerFileText(Padron.csv, csvText);
+                await db.registerFileText(proyecto7/Padron.csv, csvText);
                 await conn.query(`CREATE TABLE padron AS SELECT * FROM read_csv_auto('${CSV_FILENAME}', header=true);`);
 
                 // Habilitar controles
