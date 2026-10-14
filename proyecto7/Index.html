@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <!-- Lógica DuckDB-WASM -->
+    <<!-- Lógica DuckDB-WASM -->
     <script type="module">
         import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.28.0/+esm';
 
@@ -67,7 +67,8 @@
         const statusText = document.getElementById('statusText');
         const resultCount = document.getElementById('resultCount');
 
-        const CSV_FILENAME = 'Padron.csv'
+        const CSV_FILENAME = 'Padron.csv';
+
         async function initApp() {
             try {
                 // 1. Inicializar DuckDB-WASM
@@ -85,13 +86,13 @@
                 
                 conn = await db.connect();
 
-                // 2. Cargar el padrón predeterminado
+                // 2. Cargar el padrón predeterminado usando la constante correcta
                 statusText.textContent = "Cargando padrón de la facultad...";
-                const response = await fetch(proyecto7/Padron.csv);
+                const response = await fetch(CSV_FILENAME);
                 if (!response.ok) throw new Error(`No se encontró el archivo '${CSV_FILENAME}' en el servidor.`);
                 
                 const csvText = await response.text();
-                await db.registerFileText(proyecto7/Padron.csv, csvText);
+                await db.registerFileText(CSV_FILENAME, csvText);
                 await conn.query(`CREATE TABLE padron AS SELECT * FROM read_csv_auto('${CSV_FILENAME}', header=true);`);
 
                 // Habilitar controles
@@ -103,7 +104,7 @@
             } catch (err) {
                 statusText.textContent = "Error al cargar el padrón.";
                 statusText.className = "form-text mt-2 text-danger fw-semibold";
-                showError("No se pudo iniciar la app: " + err.message + " (Verificá que el archivo 'padron.csv' esté en la misma carpeta).");
+                showError("No se pudo iniciar la app: " + err.message + " (Verificá que el archivo 'Padron.csv' esté en la misma carpeta y con las mayúsculas correctas).");
             }
         }
 
